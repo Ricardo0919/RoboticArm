@@ -5,6 +5,7 @@ from tkinter.ttk import Combobox, Style
 from motors_serial import BAUDRATES
 from motors_serial import SensorSerial
 from utils import find_available_serial_ports
+import threading
 
 class App(Frame):
     def __init__(self, master, *args, **kwargs) -> None:
@@ -17,11 +18,12 @@ class App(Frame):
         self.baudrate_combobox: Combobox = self.create_baudrate_combobox()
         self.connect_serial_button: Button = self.create_connect_serial_button()
         self.send_buttons = self.create_send_buttons()
+        self.continue_sending = False  # Flag to control continuous sending
+        self.sending_thread = None  # Thread for sending characters
 
         self.init_gui()
         # Other objects
         self.sensor_serial: SensorSerial | None = None
-        self.sending = False
 
     def init_gui(self) -> None:
         # GUI Config
@@ -47,7 +49,7 @@ class App(Frame):
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
-        for i in range(4, 10):
+        for i in range(4, 9):
             self.grid_rowconfigure(i, weight=1)
 
         self.grid_columnconfigure(0, weight=1)
@@ -84,23 +86,23 @@ class App(Frame):
 
     def create_send_buttons(self):
         button_commands = [
-            ('D1', 'q'), ('D2', 'w'), ('D3', 'e'), ('D4', 'r'), ('D5', 't'),
-            ('L1', 'y'), ('L2', 'u'), ('L3', 'i'), ('L4', 'o'), ('L5', 'p')
+            ('D1', 'q'), ('D2', 'w'), ('D3', 'e'), ('D4', 'r'),
+            ('L1', 'y'), ('L2', 'u'), ('L3', 'i'), ('L4', 'o')
         ]
         buttons = []
-        for d_text, char in button_commands[:5]:
+        for d_text, char in button_commands[:4]:
             d_button = Button(self, text=d_text, bg='#ffd700', fg='black')
             d_button.bind('<ButtonPress>', lambda e, c=char: self.start_sending(c))
-            d_button.bind('<ButtonRelease>', lambda e, c=char: self.stop_sending(c))
+            d_button.bind('<ButtonRelease>', lambda e: self.stop_sending())
             buttons.append(d_button)
 
-        for l_text, char in button_commands[5:]:
+        for l_text, char in button_commands[4:]:
             l_button = Button(self, text=l_text, bg='#ffd700', fg='black')
             l_button.bind('<ButtonPress>', lambda e, c=char: self.start_sending(c))
-            l_button.bind('<ButtonRelease>', lambda e, c=char: self.stop_sending(c))
+            l_button.bind('<ButtonRelease>', lambda e: self.stop_sending())
             buttons.append(l_button)
         
-        return [(buttons[i], buttons[i+5]) for i in range(5)]
+        return [(buttons[i], buttons[i+4]) for i in range(4)]
 
     def refresh_serial_devices(self):
         ports = find_available_serial_ports()
@@ -117,19 +119,22 @@ class App(Frame):
         self.sensor_serial = SensorSerial(serial_port=port, baudrate=int(baudrate))
 
     def start_sending(self, char: str) -> None:
-        self.sending = True
-        self.send_character(char)
+        if self.sensor_serial is not None:
+            self.continue_sending = True
+            self.sending_thread = threading.Thread(target=self.send_char_continuously, args=(char,))
+            self.sending_thread.start()
+        else:
+            raise RuntimeError('Serial connection has not been initialized')
 
-    def stop_sending(self, event) -> None:
-        self.sending = False
+    def stop_sending(self) -> None:
+        self.continue_sending = False
+        if self.sending_thread is not None:
+            self.sending_thread.join()
+            self.sending_thread = None
 
-    def send_character(self, char: str) -> None:
-        if self.sending:
-            if self.sensor_serial is not None:
-                self.sensor_serial.send(char)
-            else:
-                raise RuntimeError('Serial connection has not been initialized')
-            self.after(10, lambda: self.send_character(char))
+    def send_char_continuously(self, char: str) -> None:
+        while self.continue_sending:
+            self.sensor_serial.send(char.lower())
 
 root = Tk()
 

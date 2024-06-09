@@ -57,8 +57,7 @@ class App(Frame):
 
         self.refresh_serial_devices_button.grid(row=0, column=0, pady=10, padx=12, columnspan=2, sticky='nsew')
         self.serial_devices_combobox.grid(row=1, column=0, pady=10, padx=12, columnspan=2, sticky='nsew')
-        self.baudrate_combobox.grid(row=2, column=0, pady=10, padx=12, columnspan=2, sticky='nsew')
-        self.connect_serial_button.grid(row=3, column=0, pady=10, padx=12, columnspan=2, sticky='nsew')
+        self.connect_serial_button.grid(row=2, column=0, pady=10, padx=12, columnspan=2, sticky='nsew')
 
         for idx, (d_button, l_button) in enumerate(self.send_buttons, start=4):
             d_button.grid(row=idx, column=0, pady=5, padx=5, sticky='nsew')

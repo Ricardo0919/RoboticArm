@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Valores del Puerto Serial</title>
+</head>
+<body>
+    <h1>Valores del Puerto Serial</h1>
+    <div id="serial-data">
+        <iframe src="/serial_data.html" id="reloadIframe" width="100%" height="200px" frameBorder="0"></iframe>
+        <script>
+            const iframe = document.getElementById("reloadIframe");
+            setInterval(() => {
+                iframe.src = iframe.src;
+            }, 1000);
+        </script>
+    </div>
+</body>
+</html>

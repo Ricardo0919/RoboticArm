@@ -7,12 +7,13 @@ app = FastAPI()
 templates = Jinja2Templates(directory=".")
 
 # Abrir la conexión serial
-ser = serial.Serial('/dev/ttyACM0', 9600)  # Modifica el puerto y la velocidad según tus necesidades
+#ser = serial.Serial('/dev/ttyACM0', 9600)  # Modifica el puerto y la velocidad según tus necesidades
 
 # Función para leer datos del puerto serial
 def read_serial_data():
     # Lee los datos del puerto serial
-    data = ser.readline().decode().strip()  # Decodifica y elimina espacios en blanco
+    #data = ser.readline().decode().strip()  # Decodifica y elimina espacios en blanco
+    data = 0
     return data
 
 # Ruta para la página principal

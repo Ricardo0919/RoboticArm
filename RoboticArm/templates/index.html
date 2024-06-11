@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos Seriales</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="introduccion">
+        <h1>Control del Brazo Robótico</h1>
+        <p>Este proyecto consiste en la programación en Python de una aplicación para controlar un Arduino que gestiona los ángulos de un brazo robótico. El sistema incluye un sensor de proximidad ultrasónico para medir distancias, cuyos datos se muestran a continuación.</p>
+    </div>
+    
+    <div id="serialData">
+        <iframe id="reloadIframe" src="serial_data.html" style="width: 100%; height: 80vh; border: none; overflow: hidden;"></iframe>
+        <script>
+            const iframe = document.getElementById("reloadIframe");
+            setInterval(() => {
+                iframe.src = iframe.src;
+            }, 1000);
+        </script>
+    </div>
+</body>
+</html>

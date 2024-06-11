@@ -1,26 +1,20 @@
 import sys
-import glob
-
 import serial
 import serial.tools.list_ports
+import glob
 
 def find_available_serial_ports() -> list[str]:
-    
-    if sys.platform.startswith('win'):  # Computadora Windows
+    if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
+        # Para Windows y macOS
         ports = serial.tools.list_ports.comports()
         result = [port.device for port in ports]
 
     elif sys.platform.startswith('linux'):  # Computadora Linux
-        ports = glob.glob('/dev/tty[A-Za-z]*')
-        result = []
-        for port in ports:
-            try:
-                s = serial.Serial(port)
-                s.close()
-                result.append(port)
-            except (OSError, serial.SerialException):
-                continue
-
+        # Para Linux
+        ports = serial.tools.list_ports.comports()
+        result = [port.device for port in ports]
+        return result
+    
     elif sys.platform.startswith('darwin'):  # Mac
         ports = glob.glob('/dev/tty.*')
         result = []

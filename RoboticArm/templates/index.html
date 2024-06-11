@@ -6,20 +6,51 @@
     <title>Datos Seriales</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body>
-    <div class="introduccion">
-        <h1>Control del Brazo Robótico</h1>
-        <p>Este proyecto consiste en la programación en Python de una aplicación para controlar un Arduino que gestiona los ángulos de un brazo robótico. El sistema incluye un sensor de proximidad ultrasónico para medir distancias, cuyos datos se muestran a continuación.</p>
-    </div>
-    
-    <div id="serialData">
-        <iframe id="reloadIframe" src="serial_data.html" style="width: 100%; height: 80vh; border: none; overflow: hidden;"></iframe>
-        <script>
-            const iframe = document.getElementById("reloadIframe");
-            setInterval(() => {
-                iframe.src = iframe.src;
-            }, 1000);
-        </script>
+<body class="index">
+    <div class="container">
+        <div class="introduccion">
+            <h1>Control del Brazo Robótico</h1> 
+            <p>Este proyecto se centra en la creación y programación de una aplicación en Python para controlar un brazo robótico utilizando un Arduino, alojada en un servidor web ejecutado en una Raspberry Pi 4. La aplicación permite a los usuarios ajustar y manipular los ángulos de los diferentes segmentos del brazo robótico, facilitando la ejecución de tareas complejas con alta precisión.</p>
+        </div>
+        
+        <div class="serialData">
+            <iframe id="reloadIframe" src="serial_data.html" style="width: 100%; height: 150px; border: none; overflow: hidden;"></iframe>
+            <script>
+                const iframe = document.getElementById("reloadIframe");
+                setInterval(() => {
+                    iframe.src = iframe.src;
+                }, 1000);
+            </script>
+        </div>
+
+        <div class="componentes-funcionalidades">
+            <h2>Componentes y Funcionalidades</h2>
+            
+            <h3>1. Control del Brazo Robótico</h3>
+            <ul>
+                <li><strong>Teclado Capacitivo</strong>: Permite el control local de los ángulos y movimientos del brazo robótico.</li>
+                <li><strong>Aplicación Python con Tkinter</strong>: Proporciona una interfaz gráfica remota para controlar los ángulos del brazo robótico desde cualquier dispositivo conectado a la Raspberry Pi 4.</li>
+            </ul>
+            
+            <h3>2. Sensor de Proximidad Ultrasónico</h3>
+            <ul>
+                <li><strong>Medición en Tiempo Real</strong>: Utiliza un sensor ultrasónico para medir distancias en tiempo real, crucial para la operación precisa del brazo robótico en entornos dinámicos.</li>
+                <li><strong>Visualización de Datos</strong>: Los datos del sensor se muestran en una interfaz web que se actualiza cada segundo mediante un iframe, ofreciendo a los usuarios una monitorización continua y precisa de las proximidades del brazo robótico.</li>
+            </ul>
+            
+            <h3>3. Servidor Web con FastAPI</h3>
+            <ul>
+                <li><strong>Interfaz Web</strong>: El servidor web, construido con FastAPI y alojado en la Raspberry Pi 4, presenta los datos del sensor de proximidad de forma dinámica.</li>
+                <li><strong>Actualización en Tiempo Real</strong>: Un iframe en la página web se recarga cada segundo para reflejar los valores actuales del sensor de proximidad.</li>
+                <li><strong>Botón de Acceso Rápido</strong>: Incluye un botón en la interfaz web que permite abrir la aplicación Tkinter en la Raspberry Pi, facilitando un control remoto eficiente del brazo robótico.</li>
+            </ul>
+        </div>
+        
+        <div class="resumen">
+            <h2>Resumen del Proyecto</h2>
+            <p>Este proyecto demuestra la integración de programación en Python con hardware de Arduino, enfatizando la automatización y precisión en la robótica moderna. Al combinar controles locales a través de un teclado capacitivo y una interfaz remota mediante una aplicación Tkinter y un servidor web con FastAPI, se ofrece una solución robusta y versátil para la operación de un brazo robótico. Los datos del sensor de proximidad ultrasónico, actualizados en tiempo real en la interfaz web, proporcionan una capa adicional de seguridad y precisión en el control del brazo robótico.</p>
+        </div>
+        
     </div>
 </body>
 </html>

@@ -1,29 +1,61 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #3C3C3C; /* Negro para un fondo oscuro */
     margin: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start; /* Alinea el contenido al inicio del contenedor */
+    flex-direction: column; /* Asegura que los elementos hijos se coloquen en columna */
+    padding-top: 20px;
 }
 
-.container .serialData {
-    background-color: #f0f0f0;
+.serial_data {
+    background-color: #000000; /* Fondo blanco para los datos del sensor */
+}
+
+.container {
+    width: 100%;
+    max-width: 800px; /* Ancho máximo para el contenedor centralizado */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+}
+
+.introduccion, .serialData, .componentes-funcionalidades, .resumen {
+    background-color: #000000; /* Fondo negro para los contenedores */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 5px 5px 10px rgba(255, 255, 255, 0.6); /* Sombra blanca hacia abajo y la derecha */
     text-align: center;
-    width : 50%;
+    width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+    margin-bottom: 20px; /* Espacio entre los divs */
 }
 
+.datos {
+    text-align: center;
+}
 
+.distancia {
+    font-size: 24px;
+    color: #ffd700; /* Color dorado para los datos del sensor */
+}
 
-h1 {
-    color: #333;
+h1, h2, h3 {
+    color: #ffd700; /* Color dorado para los títulos */
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 6px rgba(255, 244, 38, 0.6); /* Sombra dorada del texto */
 }
 
 p {
     font-size: 24px;
-    color: #555;
+    color: #ffffff; /* Texto blanco */
+    margin: 0;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Sombra del texto */
+}
+
+p, ul {
+    font-size: 18px; /* Tamaño de fuente más pequeño para mejor legibilidad */
+    color: #ffffff; /* Texto blanco */
+}
+
+ul {
+    text-align: left; /* Alinea el texto de las listas a la izquierda */
 }

@@ -86,7 +86,7 @@ class App(Frame):
 
     def create_send_buttons(self):
         button_commands = [
-            ('D1', 'q'), ('D2', 'w'), ('D3', 'e'), ('D4', 'r'),
+            ('R1', 'q'), ('R2', 'w'), ('R3', 'e'), ('R4', 'r'),
             ('L1', 'y'), ('L2', 'u'), ('L3', 'i'), ('L4', 'o')
         ]
         buttons = []

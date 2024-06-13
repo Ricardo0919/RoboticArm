@@ -11,12 +11,14 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates/")
 
-status = "La aplicacion no esta ejecutada"
+status = "Sin Status"
+last_message_time = None
 
 async def handle_client(reader, writer):
-    global status
+    global status, last_message_time
     data = await reader.read(1024)
     status = data.decode('utf-8')
+    last_message_time = asyncio.get_event_loop().time()  # Registrar la última vez que se recibió un mensaje
     writer.close()
     await writer.wait_closed()
 
@@ -28,6 +30,17 @@ async def start_socket_server():
 @app.on_event("startup")
 async def startup_event():
     asyncio.create_task(start_socket_server())
+    asyncio.create_task(reset_status_if_no_message())
+
+async def reset_status_if_no_message():
+    global status, last_message_time
+    while True:
+        await asyncio.sleep(10)  # Verificar cada 10 segundos
+        if last_message_time is not None:
+            elapsed_time = asyncio.get_event_loop().time() - last_message_time
+            if elapsed_time > 10:  # Si han pasado más de 10 segundos sin recibir un mensaje
+                status = "Sin status"
+                last_message_time = None
 
 # Ruta para la página principal
 @app.get("/", response_class=HTMLResponse)

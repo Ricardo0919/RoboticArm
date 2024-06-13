@@ -147,6 +147,7 @@ class App(Frame):
         while self.continue_sending:
             self.sensor_serial.send(char.lower())
 
+
 root = Tk()
 
 if __name__ == '__main__':

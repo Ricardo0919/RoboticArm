@@ -13,6 +13,10 @@ body {
     background-color: #000000; /* Fondo blanco para los datos del sensor */
 }
 
+.hidden {
+    display: none;
+}
+
 .container {
     width: 100%;
     max-width: 800px; /* Ancho máximo para el contenedor centralizado */
@@ -33,9 +37,13 @@ body {
     text-align: center;
 }
 
-.distancia {
+.distancia, .status {
     font-size: 24px;
-    color: #ffd700; /* Color dorado para los datos del sensor */
+    color: #ffd700; 
+}
+
+#distancia {
+    background-color: #ffd700; 
 }
 
 h1, h2, h3 {

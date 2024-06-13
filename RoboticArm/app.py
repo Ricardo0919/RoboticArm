@@ -6,6 +6,7 @@ from motors_serial import BAUDRATES
 from motors_serial import SensorSerial
 from utils import find_available_serial_ports
 import threading
+import socket
 
 class App(Frame):
     def __init__(self, master, *args, **kwargs) -> None:
@@ -112,9 +113,20 @@ class App(Frame):
         port = self.serial_devices_combobox.get()
         baudrate = self.baudrate_combobox.get()
 
+        # Create a thread to handle socket connection
+        threading.Thread(target=self.send_status_to_server, args=(port, baudrate)).start()
+
+    def send_status_to_server(self, port, baudrate):
+        app_socket = socket.socket()
+        app_socket.connect(('localhost', 8000))
+
         if not port or not baudrate.isdigit():
+            app_socket.send(b"Sin conexion")
+            app_socket.close()
             raise ValueError(f'Incorrect values for port: {port}, baudrate: {baudrate}')
 
+        app_socket.send(b"Dispositivo conectado")
+        app_socket.close()
         self.sensor_serial = SensorSerial(serial_port=port, baudrate=int(baudrate))
 
     def start_sending(self, char: str) -> None:
